@@ -18,11 +18,11 @@ let racketHeight = 90;
 // Player Settings
 let xPlayerRacket = 5;
 let yPlayerRacket = 400 / 2 - racketHeight / 2;
-let player_points = 0;
+let playerPoints = 0;
 //Com Settings
 let xComRacket = canvasWidth - racketWidth - 5;
 let yComRacket = yPlayerRacket;
-let com_points = 0;
+let comPoints = 0;
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
@@ -41,6 +41,7 @@ function draw() {
   drawRacket(xComRacket, yComRacket);
   moveComRacket();
   racketCollisionLib(xComRacket, yComRacket);
+  drawScore();
   // debugLines();
 }
 
@@ -54,12 +55,11 @@ function moveBall() {
 function ballBorderCollision() {
   if (xBall - radiusBall < 0) {
     xBallVelocity *= -1;
-    com_points += 1;
-    console.log(`Opponet Goal: ${com_points}`)
+    comPoints += 1;
   }
   if (xBall + radiusBall > width) {
     xBallVelocity *= -1;
-    player_points += 1;
+    playerPoints += 1;
   }
   if (yBall + radiusBall > height || yBall - radiusBall < 0) {
     yBallVelocity *= -1;
@@ -101,6 +101,13 @@ function moveComRacket() {
   yComRacket += drift;
 
   yComRacket = constrain(yComRacket, 5, height - racketHeight - 5);
+}
+
+let spacing = 50;
+function drawScore() {
+  fill(255);
+  text(playerPoints, canvasWidth / 2 - spacing, 50);
+  text(comPoints, canvasWidth / 2 + spacing, 50);
 }
 
 function debugLines() {
