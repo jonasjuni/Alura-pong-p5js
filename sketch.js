@@ -6,8 +6,9 @@ let radiusBall = dBall / 2;
 let xBall = canvasWidth / 2;
 let yBall = canvasHeight / 2;
 
-let xBallVelocity = 6;
-let yBallVelocity = 6;
+let velocity = 6;
+let xBallVelocity = velocity;
+let yBallVelocity = velocity;
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
 }
@@ -20,8 +21,9 @@ function draw() {
 
   drawPlayerRacket();
   movePlayerRacket();
+  racketCollision();
 
-  // debugLines();
+  debugLines();
 }
 
 function drawBall() {
@@ -32,7 +34,10 @@ function moveBall() {
   yBall += yBallVelocity;
 }
 function ballBorderCollision() {
-  if (xBall + radiusBall > width || xBall - radiusBall < 0) {
+  if (xBall - radiusBall < 0) {
+    xBallVelocity *= -1;
+  }
+  if (xBall + radiusBall > width) {
     xBallVelocity *= -1;
   }
   if (yBall + radiusBall > height || yBall - radiusBall < 0) {
@@ -57,6 +62,12 @@ function movePlayerRacket() {
   if (keyIsDown(DOWN_ARROW)) {
     yRacket += 10;
   }
+}
+function racketCollision() {
+  if (xBall - radiusBall < xRacket + racketWidth / 2 && (yBall <= yRacket + racketHeight && yBall >= yRacket)) {
+    xBallVelocity *= -1;
+  }
+
 }
 
 function debugLines() {
