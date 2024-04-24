@@ -12,8 +12,6 @@ let velocity = 6;
 let xBallVelocity = velocity;
 let yBallVelocity = velocity;
 
-let hit = false;
-
 //Racket settings
 let racketWidth = 10;
 let racketHeight = 90;
@@ -38,11 +36,11 @@ function draw() {
   drawRacket(xPlayerRacket, yPlayerRacket);
 
   movePlayerRacket();
-  racketCollisionLib();
+  racketCollisionLib(xPlayerRacket, yPlayerRacket);
 
   drawRacket(xComRacket, yComRacket);
   moveComRacket();
-
+  racketCollisionLib(xComRacket, yComRacket);
   // debugLines();
 }
 
@@ -74,10 +72,10 @@ function drawRacket(x, y) {
 
 function movePlayerRacket() {
   //TODO: add border limit
-  if (keyIsDown(UP_ARROW)) {
+  if (keyIsDown(UP_ARROW) && yPlayerRacket > 5) {
     yPlayerRacket -= 10;
   }
-  if (keyIsDown(DOWN_ARROW)) {
+  if (keyIsDown(DOWN_ARROW) && yPlayerRacket + racketHeight < height - 5) {
     yPlayerRacket += 10;
   }
 }
@@ -88,8 +86,10 @@ function movePlayerRacket() {
 //     xBallVelocity *= -1;
 //   }
 // }
-function racketCollisionLib() {
-  hit = collideRectCircle(xPlayerRacket, yPlayerRacket, racketWidth, racketHeight, xBall, yBall, dBall);
+
+let hit = false;
+function racketCollisionLib(x, y) {
+  hit = collideRectCircle(x, y, racketWidth, racketHeight, xBall, yBall, dBall);
   if (hit) {
     xBallVelocity *= -1;
   }
@@ -97,8 +97,10 @@ function racketCollisionLib() {
 
 let drift = 0;
 function moveComRacket() {
-  drift = yBall - yComRacket - racketHeight / 2 - 30; 
+  drift = yBall - yComRacket - racketHeight / 2 - 30;
   yComRacket += drift;
+
+  yComRacket = constrain(yComRacket, 5, height - racketHeight - 5);
 }
 
 function debugLines() {
