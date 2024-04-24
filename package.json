@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "p5": "^1.9.3"
+    "p5": "^1.9.3",
+    "p5collide": "^1.0.3"
   }
 }
