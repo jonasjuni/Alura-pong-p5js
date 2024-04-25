@@ -24,8 +24,19 @@ let xComRacket = canvasWidth - racketWidth - 5;
 let yComRacket = yPlayerRacket;
 let comPoints = 0;
 
+let ponto;
+let raquetada;
+let trilha;
+
+function preload() {
+  ponto = loadSound('assets/sounds/ponto.mp3');
+  raquetada = loadSound('assets/sounds/raquetada.mp3');
+  trilha = loadSound('assets/sounds/trilha.mp3');
+}
+
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
+  trilha.loop();
 }
 
 function draw() {
@@ -56,10 +67,12 @@ function ballBorderCollision() {
   if (xBall - radiusBall < 0) {
     xBallVelocity *= -1;
     comPoints += 1;
+    ponto.play();
   }
   if (xBall + radiusBall > width) {
     xBallVelocity *= -1;
     playerPoints += 1;
+    ponto.play();
   }
   if (yBall + radiusBall > height || yBall - radiusBall < 0) {
     yBallVelocity *= -1;
@@ -91,7 +104,8 @@ let hit = false;
 function racketCollisionLib(x, y) {
   hit = collideRectCircle(x, y, racketWidth, racketHeight, xBall, yBall, dBall);
   if (hit) {
-    xBallVelocity *= -1;
+    xBallVelocity *= -1; 
+    raquetada.play();
   }
 }
 
@@ -103,10 +117,18 @@ function moveComRacket() {
   yComRacket = constrain(yComRacket, 5, height - racketHeight - 5);
 }
 
-let spacing = 50;
+let spacing = 150;
 function drawScore() {
+  stroke(255);
+  textAlign(CENTER);
+  textSize(20);
+  fill(255, 140, 0);
+  rect(canvasWidth / 2 - spacing - 20, 50 - 17, 40, 20);
   fill(255);
   text(playerPoints, canvasWidth / 2 - spacing, 50);
+  fill(255, 140, 0);;
+  rect(canvasWidth / 2 + spacing - 20, 50 - 17, 40, 20);
+  fill(255);
   text(comPoints, canvasWidth / 2 + spacing, 50);
 }
 

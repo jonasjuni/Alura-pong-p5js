@@ -7,8 +7,10 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open index.html",
-            "file": "/Users/jonasjuni/Developer/JCSJ/Web/JavaScript/Alura/alura-pong-p5js/index.html"
+            "runtimeArgs": ["--autoplay-policy=no-user-gesture-required"],
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:5500",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }
